@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Task } from '../../libs/interfaces/Task';
 
-export default function TaskTile({item}: Props) {
+export default function Tile({item}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>

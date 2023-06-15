@@ -1,24 +1,21 @@
-import { useState } from 'react';
 import { FlatList, SafeAreaView } from 'react-native';
 import { Task } from '../../libs/interfaces/Task';
-import { uuid } from '../../libs/utils/others';
-import TaskTile from '../shared/TaskTile';
+import Tile from '../shared/Tile';
 import TasksListHeader from './TasksListHeader';
 
-export default function TasksList() {
-  const [tasks, _] = useState<Task[]>([
-    {id: uuid(), title: 'Hello World!', isCompleted: false},
-  ]);
-
+export default function TasksList({data}: Props) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flexGrow: 1}}>
       <FlatList
         ListHeaderComponent={TasksListHeader}
-        contentContainerStyle={{flexGrow: 1}}
-        data={tasks}
+        data={data}
         keyExtractor={task => task.id}
-        renderItem={item => TaskTile(item)}
+        renderItem={Tile}
       />
     </SafeAreaView>
   );
 }
+
+type Props = {
+  data: Task[];
+};
