@@ -1,6 +1,6 @@
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import type { PropsWithChildren } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import TaskView from './src/views/TaskView';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -8,9 +8,9 @@ type SectionProps = PropsWithChildren<{
 
 function App({children, title}: SectionProps) {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <TaskView />
+    </SafeAreaView>
   );
 }
 

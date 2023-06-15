@@ -1,31 +1,3 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",
-  "compilerOptions": {
-    "target": "es6",
-    "module": "esnext",
-    "jsx": "preserve",
-    "strict": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "noEmit": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "incremental": true,
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["src/components/shared/*"],
-      "@features/*": ["src/components/features/*"],
-      "@layout/*": ["src/components/layout/*"],
-      "@interfaces/*": ["libs/interfaces/*"],
-      "@utils/*": ["libs/utils/*"],
-      "@hooks/*": ["libs/hooks/*"],
-      "@views/*": ["src/views/*"]
-    }
-  },
-  "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "extends": "@tsconfig/react-native/tsconfig.json"
 }
