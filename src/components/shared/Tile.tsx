@@ -1,7 +1,11 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Task } from '../../libs/interfaces/Task';
+import { deleteTask, updateTask } from '../../libs/redux/actions';
 
-export default function Tile({item, onUpdateTaskStatus, onDeleteTask}: Props) {
+export default function Tile({item}: Props) {
+  const dispatch = useDispatch();
+
   const isCompletedIcon = item.isCompleted
     ? require(`../../../assets/icons/checked.png`)
     : require(`../../../assets/icons/unchecked.png`);
@@ -10,11 +14,11 @@ export default function Tile({item, onUpdateTaskStatus, onDeleteTask}: Props) {
     <View style={styles.container}>
       <Pressable
         style={styles.subContainer}
-        onPress={() => onUpdateTaskStatus(item.id)}>
+        onPress={() => dispatch(updateTask(item.id))}>
         <Image style={styles.check} source={isCompletedIcon} />
         <Text style={styles.title}>{item.title}</Text>
       </Pressable>
-      <Pressable onPress={() => onDeleteTask(item.id)}>
+      <Pressable onPress={() => dispatch(deleteTask(item.id))}>
         <Image
           style={styles.check}
           source={require(`../../../assets/icons/bin.png`)}
@@ -26,8 +30,6 @@ export default function Tile({item, onUpdateTaskStatus, onDeleteTask}: Props) {
 
 type Props = {
   item: Task;
-  onUpdateTaskStatus: (id: string) => void;
-  onDeleteTask: (id: string) => void;
 };
 
 const styles = StyleSheet.create({

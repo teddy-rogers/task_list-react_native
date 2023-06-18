@@ -1,19 +1,16 @@
-import type { PropsWithChildren } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './src/libs/redux/stores';
 import TaskView from './src/views/TaskView';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function App({children, title}: SectionProps) {
+function App() {
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <TaskView />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={{flex: 1}}>
+        <TaskView />
+      </SafeAreaView>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default App;

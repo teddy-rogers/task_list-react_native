@@ -1,23 +1,30 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../../libs/redux/actions';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
 
-export default function TaskForm({onAdd}: Props) {
-  const [task, setTask] = useState('');
+export default function TaskForm() {
+  const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
 
   function onAddTaskToList() {
-    onAdd(task);
-    setTask('');
+    dispatch(addTask(title));
+    setTitle('');
   }
 
   return (
     <View style={styles.container}>
-      <Input value={task} onChange={setTask} placeholder="add a new task..." />
+      <Input
+        value={title}
+        onChange={setTitle}
+        placeholder="add a new task..."
+      />
       <Button
         title="Add Task"
         onClick={onAddTaskToList}
-        disabled={task.length < 3}
+        disabled={title.length < 3}
       />
     </View>
   );
@@ -32,7 +39,3 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 });
-
-type Props = {
-  onAdd: (t: string) => void;
-};
