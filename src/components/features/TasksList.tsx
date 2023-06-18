@@ -1,16 +1,24 @@
 import { FlatList, SafeAreaView } from 'react-native';
 import { Task } from '../../libs/interfaces/Task';
 import Tile from '../shared/Tile';
-import TasksListHeader from './TasksListHeader';
 
-export default function TasksList({data}: Props) {
+export default function TasksList({
+  data,
+  onUpdateTaskStatus,
+  onDeleteTask,
+}: Props) {
   return (
     <SafeAreaView style={{flexGrow: 1}}>
       <FlatList
-        ListHeaderComponent={TasksListHeader}
         data={data}
         keyExtractor={task => task.id}
-        renderItem={Tile}
+        renderItem={data =>
+          Tile({
+            item: data.item,
+            onDeleteTask,
+            onUpdateTaskStatus,
+          })
+        }
       />
     </SafeAreaView>
   );
@@ -18,4 +26,6 @@ export default function TasksList({data}: Props) {
 
 type Props = {
   data: Task[];
+  onUpdateTaskStatus: (id: string) => void;
+  onDeleteTask: (id: string) => void;
 };

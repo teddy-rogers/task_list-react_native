@@ -6,7 +6,7 @@ import Input from '../shared/Input';
 export default function TaskForm({onAdd}: Props) {
   const [task, setTask] = useState('');
 
-  function handleAddToList() {
+  function onAddTaskToList() {
     onAdd(task);
     setTask('');
   }
@@ -16,7 +16,7 @@ export default function TaskForm({onAdd}: Props) {
       <Input value={task} onChange={setTask} placeholder="add a new task..." />
       <Button
         title="Add Task"
-        onClick={handleAddToList}
+        onClick={onAddTaskToList}
         disabled={task.length < 3}
       />
     </View>
