@@ -6,7 +6,7 @@ import TaskView from './src/views/TaskView';
 function App() {
   return (
     <Provider store={store}>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{backgroundColor: 'whitesmoke', flex: 1}}>
         <TaskView />
       </SafeAreaView>
     </Provider>

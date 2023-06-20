@@ -22,8 +22,16 @@ const styles = StyleSheet.create({
     width: '70%',
     height: '80%',
     padding: 8,
-    borderColor: 'dimgrey',
+    backgroundColor: 'white',
+    borderColor: 'silver',
     borderWidth: 1,
     borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
   },
 });
