@@ -1,14 +1,17 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 
-export default function FloatingView({children}: PropsWithChildren) {
+export default function FloatingView({
+  duration = 200,
+  children,
+}: PropsWithChildren<Props>) {
   const fadeAnimation = useRef(new Animated.Value(0.4)).current;
 
   useEffect(() => {
     Animated.timing(fadeAnimation, {
       toValue: 1,
-      duration: 200,
       useNativeDriver: true,
+      duration,
     }).start();
   }, [fadeAnimation]);
 
@@ -16,3 +19,7 @@ export default function FloatingView({children}: PropsWithChildren) {
     <Animated.View style={{opacity: fadeAnimation}}>{children}</Animated.View>
   );
 }
+
+type Props = {
+  duration?: number;
+};

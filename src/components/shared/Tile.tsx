@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Task } from '../../libs/interfaces/Task';
 import { deleteTask, updateTask } from '../../libs/redux/actions';
 
-export default function Tile({item}: Props) {
+export default function Tile({item, style}: Props) {
   const dispatch = useDispatch();
 
   const isCompletedIcon = item.isCompleted
@@ -11,7 +11,7 @@ export default function Tile({item}: Props) {
     : require(`../../../assets/icons/unchecked.png`);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Pressable
         style={styles.subContainer}
         onPress={() => dispatch(updateTask(item.id))}>
@@ -30,6 +30,7 @@ export default function Tile({item}: Props) {
 
 type Props = {
   item: Task;
+  style: {} | null;
 };
 
 const styles = StyleSheet.create({
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 16,
+    fontSize: 24,
   },
   check: {
     width: 24,
