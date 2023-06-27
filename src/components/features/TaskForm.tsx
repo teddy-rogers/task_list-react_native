@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../../libs/redux/actions';
 import Button from '../shared/Button';
-import Input from '../shared/Input';
+import StyledInput from '../shared/StyledInput';
 
 export default function TaskForm() {
   const [title, setTitle] = useState('');
@@ -16,13 +16,13 @@ export default function TaskForm() {
 
   return (
     <View style={styles.container}>
-      <Input
+      <StyledInput
         value={title}
         onChange={setTitle}
         placeholder="add a new task..."
       />
       <Button
-        title="Add Task"
+        title="ADD TASK"
         onClick={onAddTaskToList}
         disabled={title.length < 3}
       />

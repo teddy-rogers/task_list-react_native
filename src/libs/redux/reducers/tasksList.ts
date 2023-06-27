@@ -19,6 +19,13 @@ export function tasksList(state = initialState, action: TaskAction) {
         }
         return t;
       });
+    case 'UPDATE_TITLE':
+      return [...state].map(t => {
+        if (t.id === action.payload.id) {
+          return {...t, title: action.payload.title};
+        }
+        return t;
+      });
     case 'DELETE':
       return [...state].filter(t => t.id !== action.payload.id);
     default:
