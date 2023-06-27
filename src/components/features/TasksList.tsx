@@ -1,11 +1,19 @@
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Task } from '../../libs/interfaces/Task';
+import { isEditing } from '../../libs/redux/actions';
 import Tile from '../shared/Tile';
 
-export default function TasksList({data, onScroll}: Props) {
+export default function TasksList({data}: Props) {
+  const dispatch = useDispatch();
+
+  function handleFormStatus() {
+    dispatch(isEditing({task: null}));
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView onScrollBeginDrag={onScroll}>
+      <ScrollView onScrollBeginDrag={handleFormStatus}>
         {data.map((d, index) => (
           <Tile
             key={d.id}
@@ -20,7 +28,6 @@ export default function TasksList({data, onScroll}: Props) {
 
 type Props = {
   data: Task[];
-  onScroll: () => void;
 };
 
 const styles = StyleSheet.create({
@@ -28,6 +35,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 0,
     borderBottomWidth: 1,
-    borderColor: 'silver',
+    borderColor: '#dcdcdc',
   },
 });
