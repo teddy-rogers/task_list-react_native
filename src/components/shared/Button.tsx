@@ -3,7 +3,7 @@ import { Button as NativeBtn } from 'react-native';
 export default function Button({title, onClick, disabled}: Props) {
   return (
     <NativeBtn
-      color="peru"
+      color="#f00b42"
       title={title}
       onPress={onClick}
       disabled={disabled}
