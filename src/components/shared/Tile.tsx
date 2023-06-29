@@ -26,6 +26,12 @@ export default function Tile({item, style}: Props) {
     ? require(`../../../assets/icons/checked.png`)
     : require(`../../../assets/icons/unchecked.png`);
 
+  const isCurrentlyEditedTask = (taskId: string) =>
+    tasksListStatus.task === 'current_task' && tasksListStatus.id === taskId;
+
+  const isNotCurrentlyEditedTask = (taskId: string) =>
+    tasksListStatus.task === 'current_task' && tasksListStatus.id !== taskId;
+
   function handleUpdateTitle() {
     dispatch(updateTitle(item.id, newTitle));
     dispatch(isEditing({task: null}));
@@ -51,8 +57,7 @@ export default function Tile({item, style}: Props) {
         </Pressable>
 
         <Pressable style={[styles.subContainer]} onPress={handleFormStatus}>
-          {tasksListStatus.task === 'current_task' &&
-          tasksListStatus.id === item.id ? (
+          {isCurrentlyEditedTask(item.id) ? (
             <>
               <SimpledInput value={newTitle} onChange={setNewTitle} />
               <Button
@@ -62,7 +67,14 @@ export default function Tile({item, style}: Props) {
               />
             </>
           ) : (
-            <Text style={{fontSize: 24, padding: 4}}>{item.title}</Text>
+            <Text
+              style={{
+                fontSize: 24,
+                padding: 4,
+                color: isNotCurrentlyEditedTask(item.id) ? 'grey' : 'black',
+              }}>
+              {item.title}
+            </Text>
           )}
         </Pressable>
 
