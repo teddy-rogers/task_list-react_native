@@ -12,8 +12,10 @@ export default function TasksList({data}: Props) {
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView onScrollBeginDrag={handleFormStatus}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        onScrollBeginDrag={handleFormStatus}>
         {data.map((d, index) => (
           <Tile
             key={d.id}
@@ -31,6 +33,12 @@ type Props = {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    backgroundColor: '#ffffff',
+  },
   item: {
     borderStyle: 'solid',
     borderWidth: 0,
