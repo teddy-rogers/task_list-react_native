@@ -1,17 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEditing } from '../../libs/redux/actions';
+import { RootState } from '../../libs/redux/stores';
 
-export default function FloatingButton({onPress, isToggled = false}: Props) {
+export default function FloatingButton() {
   const [toggled, setToggled] = useState<Boolean>(false);
+  const dispatch = useDispatch();
+
+  const tasksListStatus = useSelector(
+    (state: RootState) => state.taskListStatus,
+  );
 
   function handlePress() {
-    onPress();
+    dispatch(
+      isEditing(
+        tasksListStatus.task === 'new_task' ? {task: null} : {task: 'new_task'},
+      ),
+    );
     setToggled(prevState => !prevState);
   }
-
-  useEffect(() => {
-    setToggled(isToggled);
-  }, [isToggled]);
 
   return (
     <Pressable
@@ -24,11 +32,6 @@ export default function FloatingButton({onPress, isToggled = false}: Props) {
     </Pressable>
   );
 }
-
-type Props = {
-  onPress: () => void;
-  isToggled?: Boolean;
-};
 
 const styles = StyleSheet.create({
   btn: {
