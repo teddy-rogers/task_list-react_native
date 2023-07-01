@@ -1,9 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import TaskForm from '../components/features/TaskForm';
 import TasksList from '../components/features/TasksList';
 import Header from '../components/layout/Header';
-import FadingView from '../components/shared/FadingView';
 import FloatingButton from '../components/shared/FloatingButton';
 import { Task } from '../libs/interfaces/Task';
 import { isEditing } from '../libs/redux/actions';
@@ -32,11 +30,6 @@ export default function TaskView() {
   return (
     <>
       <Header count={countNotCompletedTasks(tasksList)} />
-      {tasksListStatus.task === 'new_task' && (
-        <FadingView duration={350}>
-          <TaskForm />
-        </FadingView>
-      )}
       <View style={styles.content}>
         <TasksList data={tasksList} />
       </View>

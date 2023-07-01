@@ -2,7 +2,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../libs/redux/stores';
 import { dateConstants } from '../../libs/utils/constants';
+import TaskForm from '../features/TaskForm';
 import Counter from '../shared/Counter';
+import FadingView from '../shared/FadingView';
 
 export default function Header({count}: Props) {
   const tasksListStatus = useSelector(
@@ -12,22 +14,31 @@ export default function Header({count}: Props) {
     (state: RootState) => state.scrollPosition,
   );
 
-  console.log(scrollPosition);
-
   const date = new Date();
+
+  const currentDate = `${dateConstants.days[date.getDay()]} ${date.getDate()} ${
+    dateConstants.months[date.getMonth()]
+  }`;
+
+  function isSecondaryStyle(): boolean {
+    return tasksListStatus.task === 'new_task' || scrollPosition > 0;
+  }
 
   return (
     <View
       style={[
-        styles.container,
-        tasksListStatus.task !== 'new_task' ? styles.notAddingTask : null,
+        styles.base,
+        isSecondaryStyle() ? styles.secondary : styles.primary,
       ]}>
-      <Text style={styles.date}>
-        {`${dateConstants.days[date.getDay()]} ${date.getDate()} ${
-          dateConstants.months[date.getMonth()]
-        }`}
-      </Text>
-      <Counter count={count} />
+      <View style={[styles.header]}>
+        <Text style={styles.date}>{currentDate}</Text>
+        <Counter count={count} />
+      </View>
+      {tasksListStatus.task === 'new_task' && (
+        <FadingView duration={350}>
+          <TaskForm />
+        </FadingView>
+      )}
     </View>
   );
 }
@@ -37,16 +48,29 @@ type Props = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  base: {
+    paddingTop: 8,
+    paddingBottom: 16,
+  },
+  primary: {
+    backgroundColor: '#ffffff',
+    borderStyle: 'solid',
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderColor: '#ffffff',
+  },
+  secondary: {
+    background: '#f5f5f5',
+    borderStyle: 'solid',
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderColor: '#dcdcdc',
+  },
+  header: {
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
-  },
-  notAddingTask: {
-    backgroundColor: '#ffffff',
   },
   date: {
     fontSize: 32,
