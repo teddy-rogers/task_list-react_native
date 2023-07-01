@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import FloatingButton from '../components/features/FloatingButton';
 import TasksList from '../components/features/TasksList';
@@ -26,17 +26,8 @@ export default function TaskView() {
         count={countNotCompletedTasks(tasksList)}
         onChange={setIsSecondaryStyle}
       />
-      <View style={styles.content}>
-        <TasksList data={tasksList} />
-      </View>
+      <TasksList />
       <FloatingButton />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    flexDirection: 'row',
-    flexGrow: 1,
-  },
-});

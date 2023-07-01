@@ -5,19 +5,23 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { Task } from '../../libs/interfaces/Task';
+import { useDispatch, useSelector } from 'react-redux';
 import { isEditing, setScrollPosition } from '../../libs/redux/actions';
+import { RootState } from '../../libs/redux/stores';
 import Tile from '../shared/Tile';
 
-export default function TasksList({data}: Props) {
+export default function TasksList() {
   const dispatch = useDispatch();
 
-  function handleFormStatus() {
+  const tasksList = useSelector((state: RootState) => state.tasksList);
+
+  function shutdownHeaderForm() {
     dispatch(isEditing({task: null}));
   }
 
-  function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
+  function recordScrollPosition(
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) {
     dispatch(setScrollPosition(event.nativeEvent.contentOffset.y));
   }
 
@@ -25,14 +29,14 @@ export default function TasksList({data}: Props) {
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
-        onScroll={handleScroll}
-        onScrollBeginDrag={handleFormStatus}
+        onScroll={recordScrollPosition}
+        onScrollBeginDrag={shutdownHeaderForm}
         scrollEventThrottle={300}>
-        {data.map((d, index) => (
+        {tasksList.map((d, index) => (
           <Tile
             key={d.id}
             item={d}
-            style={index === data.length - 1 ? null : styles.item}
+            style={index === tasksList.length - 1 ? null : styles.item}
           />
         ))}
       </ScrollView>
@@ -40,13 +44,11 @@ export default function TasksList({data}: Props) {
   );
 }
 
-type Props = {
-  data: Task[];
-};
-
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     flex: 1,
+    flexGrow: 1,
   },
   scrollView: {
     backgroundColor: '#ffffff',
