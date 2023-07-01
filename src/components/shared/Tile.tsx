@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import {
-  Image,
-  Pressable, StyleProp, StyleSheet, Text,
-  View
-} from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Task } from '../../libs/interfaces/Task';
 import {
@@ -95,7 +91,7 @@ export default function Tile({item, style}: Props) {
 
 type Props = {
   item: Task;
-  style: StyleProp<any>;
+  style: {} | null;
 };
 
 const styles = StyleSheet.create({
