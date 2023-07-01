@@ -1,18 +1,14 @@
-import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../libs/redux/stores';
 import { dateConstants } from '../../libs/utils/constants';
+import Counter from '../features/Counter';
 import TaskForm from '../features/TaskForm';
-import Counter from '../shared/Counter';
 import FadingView from '../shared/FadingView';
 
-export default function Header({count, onChange}: Props) {
+export default function Header({styleVariant = 'primary'}: Props) {
   const tasksListStatus = useSelector(
     (state: RootState) => state.taskListStatus,
-  );
-  const scrollPosition = useSelector(
-    (state: RootState) => state.scrollPosition,
   );
 
   const date = new Date();
@@ -21,23 +17,11 @@ export default function Header({count, onChange}: Props) {
     dateConstants.months[date.getMonth()]
   }`;
 
-  function isSecondaryStyle(): boolean {
-    return tasksListStatus.task === 'new_task' || scrollPosition > 0;
-  }
-
-  useEffect(() => {
-    onChange(isSecondaryStyle());
-  }, [tasksListStatus.task, scrollPosition]);
-
   return (
-    <View
-      style={[
-        styles.base,
-        isSecondaryStyle() ? styles.secondary : styles.primary,
-      ]}>
+    <View style={[styles.base, styles[styleVariant]]}>
       <View style={[styles.header]}>
         <Text style={styles.date}>{currentDate}</Text>
-        <Counter count={count} />
+        <Counter />
       </View>
       {tasksListStatus.task === 'new_task' && (
         <FadingView duration={350}>
@@ -49,8 +33,7 @@ export default function Header({count, onChange}: Props) {
 }
 
 type Props = {
-  count: number;
-  onChange: (isSecondaryStyle: boolean) => void;
+  styleVariant: 'primary' | 'secondary';
 };
 
 const styles = StyleSheet.create({

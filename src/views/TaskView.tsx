@@ -1,31 +1,32 @@
-import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import FloatingButton from '../components/features/FloatingButton';
 import TasksList from '../components/features/TasksList';
 import Header from '../components/layout/Header';
-import { Task } from '../libs/interfaces/Task';
 import { RootState } from '../libs/redux/stores';
 
 export default function TaskView() {
-  const [isSecondaryStyle, setIsSecondaryStyle] = useState<boolean>(false);
+  const tasksListStatus = useSelector(
+    (state: RootState) => state.taskListStatus,
+  );
+  const scrollPosition = useSelector(
+    (state: RootState) => state.scrollPosition,
+  );
 
-  const tasksList = useSelector((state: RootState) => state.tasksList);
-
-  function countNotCompletedTasks(tasks: Task[]): number {
-    return tasks.filter(t => !t.isCompleted).length;
+  function getStyleVariant() {
+    return tasksListStatus.task === 'new_task' || scrollPosition > 0
+      ? 'secondary'
+      : 'primary';
   }
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: isSecondaryStyle ? '#f5F5F5' : '#ffffff',
+        backgroundColor:
+          getStyleVariant() === 'secondary' ? '#f5F5F5' : '#ffffff',
         flex: 1,
       }}>
-      <Header
-        count={countNotCompletedTasks(tasksList)}
-        onChange={setIsSecondaryStyle}
-      />
+      <Header styleVariant={getStyleVariant()} />
       <TasksList />
       <FloatingButton />
     </SafeAreaView>
