@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../libs/redux/stores';
@@ -6,7 +7,7 @@ import TaskForm from '../features/TaskForm';
 import Counter from '../shared/Counter';
 import FadingView from '../shared/FadingView';
 
-export default function Header({count}: Props) {
+export default function Header({count, onChange}: Props) {
   const tasksListStatus = useSelector(
     (state: RootState) => state.taskListStatus,
   );
@@ -23,6 +24,10 @@ export default function Header({count}: Props) {
   function isSecondaryStyle(): boolean {
     return tasksListStatus.task === 'new_task' || scrollPosition > 0;
   }
+
+  useEffect(() => {
+    onChange(isSecondaryStyle());
+  }, [tasksListStatus.task, scrollPosition]);
 
   return (
     <View
@@ -45,6 +50,7 @@ export default function Header({count}: Props) {
 
 type Props = {
   count: number;
+  onChange: (isSecondaryStyle: boolean) => void;
 };
 
 const styles = StyleSheet.create({
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   date: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
   },
 });

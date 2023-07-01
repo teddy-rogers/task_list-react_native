@@ -1,4 +1,5 @@
-import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import TasksList from '../components/features/TasksList';
 import Header from '../components/layout/Header';
@@ -8,6 +9,7 @@ import { isEditing } from '../libs/redux/actions';
 import { RootState } from '../libs/redux/stores';
 
 export default function TaskView() {
+  const [isSecondaryStyle, setIsSecondaryStyle] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const tasksList = useSelector((state: RootState) => state.tasksList);
@@ -28,8 +30,15 @@ export default function TaskView() {
   }
 
   return (
-    <>
-      <Header count={countNotCompletedTasks(tasksList)} />
+    <SafeAreaView
+      style={{
+        backgroundColor: isSecondaryStyle ? '#f5F5F5' : '#ffffff',
+        flex: 1,
+      }}>
+      <Header
+        count={countNotCompletedTasks(tasksList)}
+        onChange={setIsSecondaryStyle}
+      />
       <View style={styles.content}>
         <TasksList data={tasksList} />
       </View>
@@ -37,7 +46,7 @@ export default function TaskView() {
         onPress={handleToggleFormStatus}
         isToggled={tasksListStatus.task === 'new_task'}
       />
-    </>
+    </SafeAreaView>
   );
 }
 
