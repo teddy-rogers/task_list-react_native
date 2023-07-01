@@ -8,6 +8,11 @@ export default function Header({count}: Props) {
   const tasksListStatus = useSelector(
     (state: RootState) => state.taskListStatus,
   );
+  const scrollPosition = useSelector(
+    (state: RootState) => state.scrollPosition,
+  );
+
+  console.log(scrollPosition);
 
   const date = new Date();
 
