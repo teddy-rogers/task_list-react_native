@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEditing } from '../../libs/redux/actions';
@@ -18,8 +18,14 @@ export default function FloatingButton() {
         tasksListStatus.task === 'new_task' ? {task: null} : {task: 'new_task'},
       ),
     );
-    setToggled(prevState => !prevState);
+    setToggled(true);
   }
+
+  useEffect(() => {
+    if (tasksListStatus.task !== 'new_task') {
+      setToggled(false);
+    }
+  }, [tasksListStatus.task]);
 
   return (
     <Pressable
