@@ -21,17 +21,9 @@ const styles = StyleSheet.create({
   input: {
     width: '70%',
     height: '80%',
-    padding: 8,
+    padding: 16,
     backgroundColor: 'white',
-    borderColor: 'silver',
-    borderWidth: 1,
-    borderRadius: 4,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
+    borderRadius: 16,
+    fontSize: 24,
   },
 });

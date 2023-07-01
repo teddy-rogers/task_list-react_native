@@ -1,14 +1,15 @@
+import { useState } from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import TaskForm from '../components/features/TaskForm';
 import TasksList from '../components/features/TasksList';
-import TasksListHeader from '../components/features/TasksListHeader';
-import FadingView from '../components/shared/FadingView';
+import Header from '../components/layout/Header';
 import FloatingButton from '../components/shared/FloatingButton';
 import { Task } from '../libs/interfaces/Task';
 import { isEditing } from '../libs/redux/actions';
 import { RootState } from '../libs/redux/stores';
 
 export default function TaskView() {
+  const [isSecondaryStyle, setIsSecondaryStyle] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const tasksList = useSelector((state: RootState) => state.tasksList);
@@ -29,18 +30,29 @@ export default function TaskView() {
   }
 
   return (
-    <>
-      <TasksListHeader count={countNotCompletedTasks(tasksList)} />
-      {tasksListStatus.task === 'new_task' && (
-        <FadingView duration={350}>
-          <TaskForm />
-        </FadingView>
-      )}
-      <TasksList data={tasksList} />
+    <SafeAreaView
+      style={{
+        backgroundColor: isSecondaryStyle ? '#f5F5F5' : '#ffffff',
+        flex: 1,
+      }}>
+      <Header
+        count={countNotCompletedTasks(tasksList)}
+        onChange={setIsSecondaryStyle}
+      />
+      <View style={styles.content}>
+        <TasksList data={tasksList} />
+      </View>
       <FloatingButton
         onPress={handleToggleFormStatus}
         isToggled={tasksListStatus.task === 'new_task'}
       />
-    </>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    flexDirection: 'row',
+    flexGrow: 1,
+  },
+});
