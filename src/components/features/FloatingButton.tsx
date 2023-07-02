@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { isEditing } from '../../libs/redux/actions';
 import { RootState } from '../../libs/redux/stores';
 
@@ -46,31 +47,17 @@ const styles = StyleSheet.create({
     bottom: 24,
     width: 56,
     height: 56,
-    backgroundColor: '#f00b42',
+    backgroundColor: styleConstants.red,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-
-    elevation: 3,
+    ...styleConstants.shadow,
   },
   cross: {
     fontSize: 48,
     lineHeight: 56,
-    color: 'white',
+    color: styleConstants.white,
     textAlign: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    ...styleConstants.shadow,
   },
 });

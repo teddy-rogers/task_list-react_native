@@ -6,6 +6,7 @@ import {
   StyleSheet
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { isEditing, setScrollPosition } from '../../libs/redux/actions';
 import { RootState } from '../../libs/redux/stores';
 import Tile from '../shared/Tile';
@@ -51,12 +52,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollView: {
-    backgroundColor: '#ffffff',
+    backgroundColor: styleConstants.white,
   },
-  item: {
-    borderStyle: 'solid',
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: '#dcdcdc',
-  },
+  item: {...styleConstants.borderBottomGrey},
 });

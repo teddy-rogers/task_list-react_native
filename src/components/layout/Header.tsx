@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { RootState } from '../../libs/redux/stores';
 import { dateConstants } from '../../libs/utils/constants';
 import Counter from '../features/Counter';
@@ -18,7 +19,7 @@ export default function Header({styleVariant = 'primary'}: Props) {
   }`;
 
   return (
-    <View style={[styles.base, styles[styleVariant]]}>
+    <View style={[styles.base, {...(styles[styleVariant] as any)}]}>
       <View style={[styles.header]}>
         <Text style={styles.date}>{currentDate}</Text>
         <Counter />
@@ -38,28 +39,22 @@ type Props = {
 
 const styles = StyleSheet.create({
   base: {
-    paddingTop: 8,
-    paddingBottom: 16,
+    paddingTop: styleConstants.magicUnit,
+    paddingBottom: styleConstants.magicUnit * 2,
   },
   primary: {
-    backgroundColor: '#ffffff',
-    borderStyle: 'solid',
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: '#ffffff',
+    backgroundColor: styleConstants.white,
+    ...styleConstants.borderBottomWhite,
   },
   secondary: {
-    background: '#f5f5f5',
-    borderStyle: 'solid',
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: '#dcdcdc',
+    background: styleConstants.smokeWhite,
+    ...styleConstants.borderBottomGrey,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: styleConstants.magicUnit * 2,
   },
   date: {
     fontSize: 28,

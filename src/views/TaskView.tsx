@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import FloatingButton from '../components/features/FloatingButton';
 import TasksList from '../components/features/TasksList';
 import Header from '../components/layout/Header';
+import styleConstants from '../libs/constants/styleConstants';
 import { RootState } from '../libs/redux/stores';
 
 export default function TaskView() {
@@ -23,7 +24,9 @@ export default function TaskView() {
     <SafeAreaView
       style={{
         backgroundColor:
-          getStyleVariant() === 'secondary' ? '#f5F5F5' : '#ffffff',
+          getStyleVariant() === 'secondary'
+            ? styleConstants.smokeWhite
+            : styleConstants.white,
         flex: 1,
       }}>
       <Header styleVariant={getStyleVariant()} />

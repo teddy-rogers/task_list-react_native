@@ -1,5 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 import { useSelector } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { Task } from '../../libs/interfaces/Task';
 import { RootState } from '../../libs/redux/stores';
 
@@ -17,6 +18,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 56,
     fontWeight: 'bold',
-    color: '#f00b42',
+    color: styleConstants.red,
   },
 });

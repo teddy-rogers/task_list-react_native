@@ -1,9 +1,10 @@
 import { Button as NativeBtn } from 'react-native';
+import styleConstants from '../../libs/constants/styleConstants';
 
 export default function Button({title, onClick, disabled}: Props) {
   return (
     <NativeBtn
-      color="#f00b42"
+      color={styleConstants.red}
       title={title}
       onPress={onClick}
       disabled={disabled}
