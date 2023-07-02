@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import {
   Image,
-  Pressable, StyleProp, StyleSheet, Text,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
   View
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { Task } from '../../libs/interfaces/Task';
 import {
   deleteTask,
@@ -75,7 +79,9 @@ export default function Tile({item, style}: Props) {
               style={{
                 fontSize: 24,
                 padding: 4,
-                color: isNotCurrentlyEditedTask(item.id) ? 'grey' : 'black',
+                color: isNotCurrentlyEditedTask(item.id)
+                  ? styleConstants.grey
+                  : styleConstants.black,
               }}>
               {item.title}
             </Text>
@@ -104,15 +110,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     maxWidth: '100%',
-    padding: 16,
+    padding: styleConstants.magicUnit * 2,
   },
   subContainer: {
     flexDirection: 'row',
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingRight: 24,
-    paddingLeft: 16,
+    paddingRight: styleConstants.magicUnit * 3,
+    paddingLeft: styleConstants.magicUnit * 2,
   },
   check: {
     width: 24,

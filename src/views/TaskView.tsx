@@ -1,58 +1,37 @@
-import { useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { SafeAreaView } from 'react-native';
+import { useSelector } from 'react-redux';
+import FloatingButton from '../components/features/FloatingButton';
 import TasksList from '../components/features/TasksList';
 import Header from '../components/layout/Header';
-import FloatingButton from '../components/shared/FloatingButton';
-import { Task } from '../libs/interfaces/Task';
-import { isEditing } from '../libs/redux/actions';
+import styleConstants from '../libs/constants/styleConstants';
 import { RootState } from '../libs/redux/stores';
 
 export default function TaskView() {
-  const [isSecondaryStyle, setIsSecondaryStyle] = useState<boolean>(false);
-  const dispatch = useDispatch();
-
-  const tasksList = useSelector((state: RootState) => state.tasksList);
   const tasksListStatus = useSelector(
     (state: RootState) => state.taskListStatus,
   );
+  const scrollPosition = useSelector(
+    (state: RootState) => state.scrollPosition,
+  );
 
-  function countNotCompletedTasks(tasks: Task[]): number {
-    return tasks.filter(t => !t.isCompleted).length;
-  }
-
-  function handleToggleFormStatus() {
-    dispatch(
-      isEditing(
-        tasksListStatus.task === 'new_task' ? {task: null} : {task: 'new_task'},
-      ),
-    );
+  function getStyleVariant() {
+    return tasksListStatus.task === 'new_task' || scrollPosition > 0
+      ? 'secondary'
+      : 'primary';
   }
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: isSecondaryStyle ? '#f5F5F5' : '#ffffff',
+        backgroundColor:
+          getStyleVariant() === 'secondary'
+            ? styleConstants.smokeWhite
+            : styleConstants.white,
         flex: 1,
       }}>
-      <Header
-        count={countNotCompletedTasks(tasksList)}
-        onChange={setIsSecondaryStyle}
-      />
-      <View style={styles.content}>
-        <TasksList data={tasksList} />
-      </View>
-      <FloatingButton
-        onPress={handleToggleFormStatus}
-        isToggled={tasksListStatus.task === 'new_task'}
-      />
+      <Header styleVariant={getStyleVariant()} />
+      <TasksList />
+      <FloatingButton />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    flexDirection: 'row',
-    flexGrow: 1,
-  },
-});

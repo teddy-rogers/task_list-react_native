@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { addTask } from '../../libs/redux/actions';
 import Button from '../shared/Button';
 import StyledInput from '../shared/StyledInput';
@@ -35,6 +36,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: styleConstants.magicUnit * 2,
   },
 });

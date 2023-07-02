@@ -1,18 +1,15 @@
-import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import styleConstants from '../../libs/constants/styleConstants';
 import { RootState } from '../../libs/redux/stores';
 import { dateConstants } from '../../libs/utils/constants';
+import Counter from '../features/Counter';
 import TaskForm from '../features/TaskForm';
-import Counter from '../shared/Counter';
 import FadingView from '../shared/FadingView';
 
-export default function Header({count, onChange}: Props) {
+export default function Header({styleVariant = 'primary'}: Props) {
   const tasksListStatus = useSelector(
     (state: RootState) => state.taskListStatus,
-  );
-  const scrollPosition = useSelector(
-    (state: RootState) => state.scrollPosition,
   );
 
   const date = new Date();
@@ -21,23 +18,11 @@ export default function Header({count, onChange}: Props) {
     dateConstants.months[date.getMonth()]
   }`;
 
-  function isSecondaryStyle(): boolean {
-    return tasksListStatus.task === 'new_task' || scrollPosition > 0;
-  }
-
-  useEffect(() => {
-    onChange(isSecondaryStyle());
-  }, [tasksListStatus.task, scrollPosition]);
-
   return (
-    <View
-      style={[
-        styles.base,
-        isSecondaryStyle() ? styles.secondary : styles.primary,
-      ]}>
+    <View style={[styles.base, {...(styles[styleVariant] as any)}]}>
       <View style={[styles.header]}>
         <Text style={styles.date}>{currentDate}</Text>
-        <Counter count={count} />
+        <Counter />
       </View>
       {tasksListStatus.task === 'new_task' && (
         <FadingView duration={350}>
@@ -49,34 +34,27 @@ export default function Header({count, onChange}: Props) {
 }
 
 type Props = {
-  count: number;
-  onChange: (isSecondaryStyle: boolean) => void;
+  styleVariant: 'primary' | 'secondary';
 };
 
 const styles = StyleSheet.create({
   base: {
-    paddingTop: 8,
-    paddingBottom: 16,
+    paddingTop: styleConstants.magicUnit,
+    paddingBottom: styleConstants.magicUnit * 2,
   },
   primary: {
-    backgroundColor: '#ffffff',
-    borderStyle: 'solid',
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: '#ffffff',
+    backgroundColor: styleConstants.white,
+    ...styleConstants.borderBottomWhite,
   },
   secondary: {
-    background: '#f5f5f5',
-    borderStyle: 'solid',
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: '#dcdcdc',
+    background: styleConstants.smokeWhite,
+    ...styleConstants.borderBottomGrey,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: styleConstants.magicUnit * 2,
   },
   date: {
     fontSize: 28,
