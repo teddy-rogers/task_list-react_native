@@ -14,22 +14,19 @@ export default function TaskView() {
     (state: RootState) => state.scrollPosition,
   );
 
-  function getStyleVariant() {
+  function getStyleVariant(): ['primary' | 'secondary', string] {
     return tasksListStatus.task === 'new_task' || scrollPosition > 0
-      ? 'secondary'
-      : 'primary';
+      ? ['secondary', styleConstants.smokeWhite]
+      : ['primary', styleConstants.white];
   }
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor:
-          getStyleVariant() === 'secondary'
-            ? styleConstants.smokeWhite
-            : styleConstants.white,
+        backgroundColor: getStyleVariant()[1],
         flex: 1,
       }}>
-      <Header styleVariant={getStyleVariant()} />
+      <Header styleVariant={getStyleVariant()[0]} />
       <TasksList />
       <FloatingButton />
     </SafeAreaView>
