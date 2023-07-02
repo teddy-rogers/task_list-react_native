@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styleConstants from '../../libs/constants/styleConstants';
 import { isEditing } from '../../libs/redux/actions';
@@ -7,35 +7,47 @@ import { RootState } from '../../libs/redux/stores';
 
 export default function FloatingButton() {
   const [toggled, setToggled] = useState<Boolean>(false);
-  const dispatch = useDispatch();
+  const [rotateValue, _] = useState(new Animated.Value(0));
 
+  const dispatch = useDispatch();
   const tasksListStatus = useSelector(
     (state: RootState) => state.taskListStatus,
   );
 
-  function handlePress() {
+  const rotateData = rotateValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '45deg'],
+  });
+
+  function rotateView(angle: '45' | '-45') {
+    Animated.timing(rotateValue, {
+      toValue: angle === '45' ? 0 : 1,
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  function displayTaskForm() {
     dispatch(
       isEditing(
         tasksListStatus.task === 'new_task' ? {task: null} : {task: 'new_task'},
       ),
     );
-    setToggled(true);
+    setToggled(prev => !prev);
   }
 
   useEffect(() => {
     if (tasksListStatus.task !== 'new_task') {
       setToggled(false);
     }
-  }, [tasksListStatus.task]);
+    toggled ? rotateView('45') : rotateView('-45');
+  }, [tasksListStatus.task, toggled]);
 
   return (
-    <Pressable
-      onPress={handlePress}
-      style={[
-        styles.btn,
-        {transform: toggled ? 'rotate(45deg)' : 'rotate(0deg)'},
-      ]}>
-      <Text style={styles.cross}>+</Text>
+    <Pressable onPress={displayTaskForm} style={styles.btn}>
+      <Animated.View style={{transform: [{rotate: rotateData}]}}>
+        <Text style={styles.cross}>✕</Text>
+      </Animated.View>
     </Pressable>
   );
 }
@@ -54,10 +66,11 @@ const styles = StyleSheet.create({
     ...styleConstants.shadow,
   },
   cross: {
-    fontSize: 48,
-    lineHeight: 56,
+    bottom: 0,
+    fontSize: 32,
+    fontWeight: 'bold',
+    lineHeight: 48,
     color: styleConstants.white,
-    textAlign: 'center',
     ...styleConstants.shadow,
   },
 });
